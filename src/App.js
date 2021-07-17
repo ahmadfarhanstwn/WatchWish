@@ -1,36 +1,29 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
-import { MovieList } from "./Components/MovieList";
+import { useMovies } from "./Hooks/useMovies";
+import { SearchPage } from "./Pages/SearchPage";
+import { WishListPage } from "./Pages/WishlistPage";
 import { Search } from "./Components/Search";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 const App = () => {
-  const [movies, setMovies] = useState([]);
-  const [searchValue, setSearchValue] = useState("");
-
-  const getMovieRequest = async (searchValue) => {
-    const url = `http://www.omdbapi.com/?s=${searchValue}&apikey=4ae3e8c0`;
-
-    const response = await fetch(url);
-    const responseJson = await response.json();
-
-    if (responseJson.Search) {
-      setMovies(responseJson.Search);
-    } else {
-      setMovies([]);
-    }
-  };
-
-  const searchChange = (e) => {
-    setSearchValue(e.target.value);
-  };
+  const {
+    movies,
+    searchValue,
+    getMovieRequest,
+    searchChange,
+    addWishlist,
+    removeWishlist,
+    wishlist,
+  } = useMovies();
 
   useEffect(() => {
     getMovieRequest(searchValue);
   }, [searchValue]);
 
   return (
-    <div className="container-fluid movie-app">
+    <>
       <div className="header">
         <div>
           <h1 className="app-title">WatchWish</h1>
@@ -39,11 +32,25 @@ const App = () => {
           <Search searchValue={searchValue} searchChange={searchChange} />
         </div>
       </div>
-      <h5>Find Movie, TV Series, Anime & etc</h5>
-      <div className="row">
-        <MovieList movies={movies} />
-      </div>
-    </div>
+      <Router>
+        <div className="header">
+          <h5>
+            <Link to="/">Find Movies</Link>
+          </h5>
+          <h5>
+            <Link to="/wishlist">Your Wishlist</Link>
+          </h5>
+        </div>
+        <Switch>
+          <Route exact path="/">
+            <SearchPage movies={movies} addWishlist={addWishlist} />
+          </Route>
+          <Route exact path="/wishlist">
+            <WishListPage wishlist={wishlist} removeWishlist={removeWishlist} />
+          </Route>
+        </Switch>
+      </Router>
+    </>
   );
 };
 

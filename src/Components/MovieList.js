@@ -1,7 +1,7 @@
 import React from "react";
 // import "bootstrap/dist/css/bootstrap.min.css";
 
-export const MovieList = ({ movies }) => {
+export const MovieList = ({ movies, addWishlist }) => {
   return (
     <div className="movie-list">
       {movies.slice(0, 8).map((movie, index) => (
@@ -13,7 +13,9 @@ export const MovieList = ({ movies }) => {
           <div className="overlay">
             <h5 className="movie-title">{movie.Title}</h5>
             <p>{movie.Year}</p>
-            <h6 className="wishlist">Add to Wishlist</h6>
+            <h6 onClick={() => addWishlist(movie)} className="wishlist">
+              Add to Wishlist
+            </h6>
           </div>
         </div>
       ))}
