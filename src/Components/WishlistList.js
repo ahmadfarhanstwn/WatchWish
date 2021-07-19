@@ -13,7 +13,7 @@ export const WishlistList = ({ wishlist, removeWishlist }) => {
             <h5 className="movie-title">{wish.Title}</h5>
             <p>{wish.Year}</p>
             <h6 onClick={() => removeWishlist(wish)} className="wishlist">
-              Remove From Wishlist
+              Remove From Watchwish
             </h6>
           </div>
         </div>

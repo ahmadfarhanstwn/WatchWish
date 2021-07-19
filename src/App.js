@@ -33,13 +33,17 @@ const App = () => {
         </div>
       </div>
       <Router>
-        <div className="header">
-          <h5>
-            <Link to="/">Find Movies</Link>
-          </h5>
-          <h5>
-            <Link to="/wishlist">Your Wishlist</Link>
-          </h5>
+        <div className="link-header">
+          <a className="link link--eirene">
+            <span>
+              <Link to="/">Find Movies/Series/Anime</Link>
+            </span>
+          </a>
+          <a className="link link--eirene">
+            <span>
+              <Link to="/wishlist">Your Watchwish</Link>
+            </span>
+          </a>
         </div>
         <Switch>
           <Route exact path="/">
