@@ -4,6 +4,7 @@ export const useMovies = () => {
   const [movies, setMovies] = useState([]);
   const [searchValue, setSearchValue] = useState("");
   const [wishlist, setWishlist] = useState([]);
+  const [movieDetails, setMovieDetails] = useState({});
 
   const getMovieRequest = async (searchValue) => {
     const url = `http://www.omdbapi.com/?s=${searchValue}&apikey=4ae3e8c0`;
@@ -16,6 +17,24 @@ export const useMovies = () => {
     } else {
       setMovies([]);
     }
+  };
+
+  const getMovieDetails = async (imdbId) => {
+    const url = `http://www.omdbapi.com/?i=${imdbId}&apikey=4ae3e8c0`;
+
+    const response = await fetch(url);
+    const responseJson = await response.json();
+
+    if (responseJson) {
+      setMovieDetails(responseJson);
+    } else {
+      setMovieDetails({});
+    }
+  };
+
+  const clickDetails = async (imdbID) => {
+    await getMovieDetails(imdbID);
+    console.log(movieDetails);
   };
 
   const searchChange = (e) => {
@@ -43,5 +62,7 @@ export const useMovies = () => {
     addWishlist,
     removeWishlist,
     wishlist,
+    clickDetails,
+    movieDetails,
   };
 };

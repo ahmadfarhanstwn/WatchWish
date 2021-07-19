@@ -16,6 +16,8 @@ const App = () => {
     addWishlist,
     removeWishlist,
     wishlist,
+    clickDetails,
+    movieDetails,
   } = useMovies();
 
   useEffect(() => {
@@ -47,10 +49,18 @@ const App = () => {
         </div>
         <Switch>
           <Route exact path="/">
-            <SearchPage movies={movies} addWishlist={addWishlist} />
+            <SearchPage
+              movies={movies}
+              addWishlist={addWishlist}
+              clickDetails={clickDetails}
+            />
           </Route>
           <Route exact path="/wishlist">
-            <WishListPage wishlist={wishlist} removeWishlist={removeWishlist} />
+            <WishListPage
+              wishlist={wishlist}
+              removeWishlist={removeWishlist}
+              clickDetails={clickDetails}
+            />
           </Route>
         </Switch>
       </Router>
