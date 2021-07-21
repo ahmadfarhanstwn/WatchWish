@@ -5,6 +5,10 @@ export const useMovies = () => {
   const [searchValue, setSearchValue] = useState("");
   const [wishlist, setWishlist] = useState([]);
   const [movieDetails, setMovieDetails] = useState({});
+  const [open, setOpen] = useState(false);
+  const [isSearchPages, setIsSearchPages] = useState(true);
+  const [openSnackbarAdd, setOpenSnackbarAdd] = useState(false);
+  const [openSnackbarRemove, setOpenSnackbarRemove] = useState(false);
 
   const getMovieRequest = async (searchValue) => {
     const url = `http://www.omdbapi.com/?s=${searchValue}&apikey=4ae3e8c0`;
@@ -20,7 +24,7 @@ export const useMovies = () => {
   };
 
   const getMovieDetails = async (imdbId) => {
-    const url = `http://www.omdbapi.com/?i=${imdbId}&apikey=4ae3e8c0`;
+    const url = `http://www.omdbapi.com/?i=${imdbId}&plot=full&apikey=4ae3e8c0`;
 
     const response = await fetch(url);
     const responseJson = await response.json();
@@ -34,7 +38,12 @@ export const useMovies = () => {
 
   const clickDetails = async (imdbID) => {
     await getMovieDetails(imdbID);
+    setOpen(true);
     console.log(movieDetails);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
   };
 
   const searchChange = (e) => {
@@ -44,7 +53,7 @@ export const useMovies = () => {
   const addWishlist = (movie) => {
     const addedWishlistList = [...wishlist, movie];
     setWishlist(addedWishlistList);
-    console.log(wishlist);
+    setOpenSnackbarAdd(true);
   };
 
   const removeWishlist = (movie) => {
@@ -52,6 +61,7 @@ export const useMovies = () => {
       (wish) => wish.imdbID != movie.imdbID
     );
     setWishlist(removedWishlistList);
+    setOpenSnackbarRemove(true);
   };
 
   return {
@@ -64,5 +74,13 @@ export const useMovies = () => {
     wishlist,
     clickDetails,
     movieDetails,
+    open,
+    handleClose,
+    isSearchPages,
+    setIsSearchPages,
+    openSnackbarAdd,
+    setOpenSnackbarAdd,
+    openSnackbarRemove,
+    setOpenSnackbarRemove,
   };
 };

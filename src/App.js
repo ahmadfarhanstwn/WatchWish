@@ -5,6 +5,7 @@ import { useMovies } from "./Hooks/useMovies";
 import { SearchPage } from "./Pages/SearchPage";
 import { WishListPage } from "./Pages/WishlistPage";
 import { Search } from "./Components/Search";
+import { DescriptionPage } from "./Pages/DescriptionPage";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 const App = () => {
@@ -18,6 +19,14 @@ const App = () => {
     wishlist,
     clickDetails,
     movieDetails,
+    open,
+    handleClose,
+    isSearchPages,
+    setIsSearchPages,
+    openSnackbarAdd,
+    setOpenSnackbarAdd,
+    openSnackbarRemove,
+    setOpenSnackbarRemove,
   } = useMovies();
 
   useEffect(() => {
@@ -31,19 +40,29 @@ const App = () => {
           <h1 className="app-title">WatchWish</h1>
         </div>
         <div>
-          <Search searchValue={searchValue} searchChange={searchChange} />
+          {isSearchPages ? (
+            <Search searchValue={searchValue} searchChange={searchChange} />
+          ) : (
+            ""
+          )}
         </div>
       </div>
       <Router>
         <div className="link-header">
-          <a className="link link--eirene">
+          <a
+            className="link link--eirene"
+            onClick={() => setIsSearchPages(true)}
+          >
             <span>
               <Link to="/">Find Movies/Series/Anime</Link>
             </span>
           </a>
-          <a className="link link--eirene">
+          <a
+            className="link link--eirene"
+            onClick={() => setIsSearchPages(false)}
+          >
             <span>
-              <Link to="/wishlist">Your Watchwish</Link>
+              <Link to="/watchwish">Your Watchwish</Link>
             </span>
           </a>
         </div>
@@ -53,17 +72,26 @@ const App = () => {
               movies={movies}
               addWishlist={addWishlist}
               clickDetails={clickDetails}
+              openSnackbarAdd={openSnackbarAdd}
+              setOpenSnackbarAdd={setOpenSnackbarAdd}
             />
           </Route>
-          <Route exact path="/wishlist">
+          <Route exact path="/watchwish">
             <WishListPage
               wishlist={wishlist}
               removeWishlist={removeWishlist}
               clickDetails={clickDetails}
+              openSnackbarRemove={openSnackbarRemove}
+              setOpenSnackbarRemove={setOpenSnackbarRemove}
             />
           </Route>
         </Switch>
       </Router>
+      <DescriptionPage
+        handleClose={handleClose}
+        open={open}
+        movieDetails={movieDetails}
+      />
     </>
   );
 };

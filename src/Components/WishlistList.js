@@ -8,7 +8,12 @@ export const WishlistList = ({ wishlist, removeWishlist, clickDetails }) => {
           key={index}
           className="image-container d-flex justify-content-start m-3"
         >
-          <img className="image-movie" src={wish.Poster} alt="movie" />
+          <img
+            className="image-movie"
+            onClick={() => clickDetails(wish.imdbID)}
+            src={wish.Poster}
+            alt="movie"
+          />
           <div className="overlay">
             <h5 className="movie-title">
               {wish.Title} ({wish.Year})
