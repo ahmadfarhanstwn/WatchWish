@@ -1,9 +1,13 @@
 import { useState } from "react";
 
+const localWishlistData = () => {
+  return JSON.parse(localStorage.getItem("watchwish")) || [];
+};
+
 export const useMovies = () => {
   const [movies, setMovies] = useState([]);
   const [searchValue, setSearchValue] = useState("");
-  const [wishlist, setWishlist] = useState([]);
+  const [wishlist, setWishlist] = useState(localWishlistData);
   const [movieDetails, setMovieDetails] = useState({});
   const [open, setOpen] = useState(false);
   const [isSearchPages, setIsSearchPages] = useState(true);
@@ -50,9 +54,14 @@ export const useMovies = () => {
     setSearchValue(e.target.value);
   };
 
+  const saveToLocalStorage = (watchwish) => {
+    localStorage.setItem("watchwish", JSON.stringify(watchwish));
+  };
+
   const addWishlist = (movie) => {
     const addedWishlistList = [...wishlist, movie];
     setWishlist(addedWishlistList);
+    saveToLocalStorage(addedWishlistList);
     setOpenSnackbarAdd(true);
   };
 
@@ -62,6 +71,7 @@ export const useMovies = () => {
     );
     setWishlist(removedWishlistList);
     setOpenSnackbarRemove(true);
+    saveToLocalStorage(removedWishlistList);
   };
 
   return {
@@ -82,5 +92,6 @@ export const useMovies = () => {
     setOpenSnackbarAdd,
     openSnackbarRemove,
     setOpenSnackbarRemove,
+    setWishlist,
   };
 };
